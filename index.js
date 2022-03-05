@@ -1,95 +1,70 @@
-const Engine = Matter.Engine,
+// module aliases
+var Engine = Matter.Engine,
   Render = Matter.Render,
   Runner = Matter.Runner,
-  Body = Matter.Body,
-  Events = Matter.Events,
-  Composite = Matter.Composite,
-  Composites = Matter.Composites,
-  Common = Matter.Common,
-  MouseConstraint = Matter.MouseConstraint,
-  Mouse = Matter.Mouse,
-  Bodies = Matter.Bodies;
+  Bodies = Matter.Bodies,
+  Composite = Matter.Composite;
 
-// create engine
-const engine = Engine.create(),
-  world = engine.world;
+// create an engine
+var engine = Engine.create();
 
-const canvas = document.getElementById('stage');
+var canvas = document.createElement('canvas'),
+  context = canvas.getContext('2d');
 
-// create renderer
-const render = Render.create({
-  engine: engine,
-  canvas: canvas,
-  options: {
-    width: 800,
-    height: 400,
-    wireframes: false
-  }
+// create a renderer
+var render = Render.create({
+  element: canvas,
+  engine: engine
 });
 
+// create two boxes and a ground
+var boxA = Bodies.rectangle(400, 200, 80, 80);
+var boxB = Bodies.rectangle(450, 50, 80, 80);
+var ground = Bodies.rectangle(400, 400, 810, 10, { isStatic: true });
+
+// add all of the bodies to the world
+Composite.add(engine.world, [boxA, boxB, ground]);
+
+// run the renderer
 Render.run(render);
 
 // create runner
-const runner = Runner.create();
+var runner = Runner.create();
+
+// run the engine
 Runner.run(runner, engine);
 
-const bodyStyle = { fillStyle: '#00ccff' };
+canvas.width = 800;
+canvas.height = 500;
 
-// scene code
-Composite.add(world, [
-  Bodies.rectangle(400, 0, 800, 50, { isStatic: true, render: bodyStyle }),
-  Bodies.rectangle(400, 600, 800, 50, { isStatic: true, render: bodyStyle }),
-  Bodies.rectangle(800, 300, 50, 600, { isStatic: true, render: bodyStyle }),
-  Bodies.rectangle(0, 300, 50, 600, { isStatic: true, render: bodyStyle })
-]);
+document.body.appendChild(canvas);
 
-const stack = Composites.stack(70, 100, 2, 1, 50, 50, function(x, y) {
-  return Bodies.circle(x, y, 15, { restitution: 1, render: bodyStyle });
-});
+(function render() {
+  var bodies = Composite.allBodies(engine.world);
 
-Composite.add(world, stack);
+  window.requestAnimationFrame(render);
 
-const shakeScene = function(engine) {
-  const bodies = Composite.allBodies(engine.world);
+  context.fillStyle = '#555';
+  context.fillRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = 0; i < bodies.length; i++) {
-    const body = bodies[i];
+  context.beginPath();
 
-    if (!body.isStatic && body.position.y >= 500) {
-      const forceMagnitude = 0.02 * body.mass;
+  for (var i = 0; i < bodies.length; i += 1) {
+    var vertices = bodies[i].vertices;
 
-      Body.applyForce(body, body.position, {
-        x: (forceMagnitude + Common.random() * forceMagnitude) * Common.choose([1, -1]),
-        y: -forceMagnitude + Common.random() * -forceMagnitude
-      });
+    context.moveTo(vertices[0].x, vertices[0].y);
+
+    for (var j = 1; j < vertices.length; j += 1) {
+      context.lineTo(vertices[j].x, vertices[j].y);
     }
+
+    context.lineTo(vertices[0].x, vertices[0].y);
   }
-};
 
-// add mouse control
-const mouse = Mouse.create(render.canvas),
-  mouseConstraint = MouseConstraint.create(engine, {
-    mouse: mouse,
-    constraint: {
-      stiffness: 0.2,
-      render: {
-        visible: false
-      }
-    }
-  });
+  context.lineWidth = 1;
+  context.strokeStyle = '#999';
+  context.stroke();
 
-Composite.add(world, mouseConstraint);
-
-// keep the mouse in sync with rendering
-render.mouse = mouse;
-
-// an example of using mouse events on a mouse
-Events.on(mouseConstraint, 'mousedown', function(event) {
-  shakeScene(engine);
-});
-
-// fit the render viewport to the scene
-Render.lookAt(render, {
-  min: { x: 0, y: 0 },
-  max: { x: 800, y: 600 }
-});
+  context.fillStyle = '#000';
+  context.fillRect(0,400, 20, 100);
+})();
