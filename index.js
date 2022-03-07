@@ -38,8 +38,8 @@ const sketch = (s) => {
     let world = engine.world;
 
     // create two boxes and a ground
-    blockA = new Ball(s, world, { x: 200, y: 200, r: 30, color: 'white' }, {restitution: 1});
-    blockB = new Ball(s, world, { x: 270, y: 50, r: 30, color: 'white' }, {restitution: 1});
+    blockA = new Ball(s, world, { x: 200, y: 200, r: 40, color: 'white' }, {restitution: 1});
+    blockB = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white' }, {restitution: 1});
     // blockC = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white' }, {restitution: 1});
     ground = new Block(s, world, { x: 400, y: 500, w: 810, h: 15, color: 'grey' }, { isStatic: true});
 
