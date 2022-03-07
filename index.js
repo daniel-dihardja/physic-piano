@@ -9,18 +9,18 @@ let mouse;
 let wallLeft;
 let wallRight;
 let wallTop;
-
+let piano;
 
 const worker = new Worker('worker.js');
 
 worker.onmessage = (event) => {
   const {note} = event.data;
-  console.log(note);
 }
 
 const sketch = (s) => {
   s.setup = async () => {
     const canvas = s.createCanvas(800, 600);
+    piano = new Piano(s, 5);
 
     // create an engine
     let engine = Matter.Engine.create();
@@ -29,7 +29,7 @@ const sketch = (s) => {
     // create two boxes and a ground
     blockA = new Ball(s, world, { x: 200, y: 200, r: 30, color: 'white' }, {restitution: 1});
     blockB = new Ball(s, world, { x: 270, y: 50, r: 30, color: 'white' }, {restitution: 1});
-    ground = new Block(s, world, { x: 400, y: 500, w: 810, h: 15, color: 'grey' }, { isStatic: true, angle: s.PI/36 });
+    ground = new Block(s, world, { x: 400, y: 500, w: 810, h: 15, color: 'grey' }, { isStatic: true});
 
     wallLeft = new Block(s, world, {x: -50, y: 300, h: 600, w: 100, color: 'grey'}, {isStatic: true});
     wallRight = new Block(s, world, {x: 850, y: 300, h: 600, w: 100, color: 'grey'}, {isStatic: true});
@@ -61,8 +61,9 @@ const sketch = (s) => {
     s.background('black');
     blockA.draw();
     blockB.draw();
-    ground.draw();
+    // ground.draw();
     wallTop.draw();
+    piano.draw();
   }
 }
 
