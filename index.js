@@ -1,5 +1,6 @@
 import {Piano} from "./piano";
 import {Block, Mouse, Ball} from './classes';
+import {Synth} from './synth';
 
 let blockA;
 let blockB;
@@ -10,6 +11,7 @@ let wallLeft;
 let wallRight;
 let wallTop;
 let piano;
+let synth;
 
 const balls = [];
 
@@ -18,19 +20,24 @@ const worker = new Worker('worker.js');
 worker.onmessage = (event) => {
   const {note} = event.data;
   piano.on(note);
+  if(note) {
+    synth.play(note);
+  }
+
 }
 
 const sketch = (s) => {
   s.setup = async () => {
     const canvas = s.createCanvas(800, 600);
     piano = new Piano(s, 6);
+    synth = new Synth(s);
 
     // create an engine
     let engine = Matter.Engine.create();
     let world = engine.world;
 
     // create two boxes and a ground
-    blockA = new Ball(s, world, { x: 200, y: 200, r: 30, color: 'white' }, {restitution: 1});
+    blockA = new Ball(s, world, { x: 200, y: 200, r: 30, color: 'white' }, {restitution: 1, density: 0.05});
     blockB = new Ball(s, world, { x: 270, y: 50, r: 30, color: 'white' }, {restitution: 1});
     ground = new Block(s, world, { x: 400, y: 500, w: 810, h: 15, color: 'grey' }, { isStatic: true});
 
@@ -59,9 +66,9 @@ const sketch = (s) => {
     // change object colours to show those starting a collision
     for (let i = 0; i < pairs.length; i++) {
       const pair = pairs[i];
-      worker.postMessage({button: Math.floor(Math.random() * 8)});
       for (let ball of balls) {
         if (ball.body === pair.bodyA || ball.body === pair.bodyB) {
+          worker.postMessage({button: Math.floor(Math.random() * 7)});
           ball.on();
         }
       }
