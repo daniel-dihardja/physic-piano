@@ -1,14 +1,24 @@
 class Key {
-  constructor(sketch, x, y, w, h) {
+  constructor(sketch, x, y, w, h, color) {
     this.sketch = sketch;
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+    this.defaultColor = color;
+    this.color = color;
   }
 
   draw() {
+    this.sketch.fill(this.color);
     this.sketch.rect(this.x, this.y, this.w, this.h);
+  }
+
+  on() {
+    this.color = this.sketch.color('magenta');
+    setTimeout(() => {
+      this.color = this.defaultColor;
+    }, 200);
   }
 }
 
@@ -26,11 +36,18 @@ export class Piano {
     this.setupKeys();
   }
 
+  on(note) {
+    const key = this.keys[note];
+    if (key) {
+      key.on();
+    }
+  }
+
   setupKeys() {
     for (let o=0; o<this.octaves; o++) {
       for (let i=0; i<whiteKeys.length; i++) {
         const px = i * this.keyWidth + 1 + o * (7 * this.keyWidth);
-        const key = new Key(this.sketch, px, 500, this.keyWidth-1, 99);
+        const key = new Key(this.sketch, px, 500, this.keyWidth-1, 99, 255);
         const id = whiteKeys[i] + o * 12;
         this.whiteKeys.push(key);
         this.keys[id] = key;
@@ -38,7 +55,7 @@ export class Piano {
       for (let i=0; i<blackKeys.length; i++) {
         const offsetX = i < 2 ? this.keyWidth * 0.75 : this.keyWidth * 0.75 + this.keyWidth;
         const px = i * this.keyWidth + offsetX + 1 + o * (7*this.keyWidth);
-        const key = new Key(this.sketch, px, 500, this.keyWidth / 2, 70);
+        const key = new Key(this.sketch, px, 500, this.keyWidth / 2, 70, 0);
         const id = blackKeys[i] + o * 12;
         this.blackKeys.push(key);
         this.keys[id] = key;
@@ -47,12 +64,10 @@ export class Piano {
   }
 
   draw() {
-    this.sketch.fill(255);
     for (let i=0; i<this.whiteKeys.length; i++) {
       const key = this.whiteKeys[i];
       key.draw();
     }
-    this.sketch.fill(0);
     for (let i=0; i<this.blackKeys.length; i++) {
       const key = this.blackKeys[i];
       key.draw();
