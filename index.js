@@ -1,6 +1,6 @@
 import {Piano} from "./piano";
 import {Block, Mouse, Ball} from './classes';
-import {Synth} from './synth';
+import {Player} from './player';
 
 let blockA;
 let blockB;
@@ -12,26 +12,23 @@ let wallLeft;
 let wallRight;
 let wallTop;
 let piano;
-let synth;
+
 
 const balls = [];
 
 const worker = new Worker('worker.js');
+const player = new Player();
 
 worker.onmessage = (event) => {
   const {note} = event.data;
   piano.on(note);
-  if(note) {
-    synth.play(note);
-  }
-
+  player.play(note);
 }
 
 const sketch = (s) => {
   s.setup = async () => {
     const canvas = s.createCanvas(800, 600);
     piano = new Piano(s, 6);
-    synth = new Synth(s);
 
     // create an engine
     let engine = Matter.Engine.create();
