@@ -28,16 +28,15 @@ worker.onmessage = (event) => {
 const sketch = (s) => {
   s.setup = async () => {
     const canvas = s.createCanvas(800, 600);
-    piano = new Piano(s, 6);
+    piano = new Piano(s, 7);
 
     // create an engine
     let engine = Matter.Engine.create();
     let world = engine.world;
 
     // create two boxes and a ground
-    blockA = new Ball(s, world, { x: 200, y: 200, r: 40, color: 'white' }, {restitution: 1});
-    blockB = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white' }, {restitution: 1});
-    // blockC = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white' }, {restitution: 1});
+    blockA = new Ball(s, world, { x: 200, y: 200, r: 40, color: 'white', o: 0 }, {restitution: 1});
+    blockB = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white', o: 4 }, {restitution: 1});
     ground = new Block(s, world, { x: 400, y: 500, w: 810, h: 15, color: 'grey' }, { isStatic: true});
 
     balls.push(blockA);
@@ -65,9 +64,10 @@ const sketch = (s) => {
     // change object colours to show those starting a collision
     for (let i = 0; i < pairs.length; i++) {
       const pair = pairs[i];
-      worker.postMessage({button: Math.floor(Math.random() * 8)});
+
       for (let ball of balls) {
         if (ball.body === pair.bodyA || ball.body === pair.bodyB) {
+          worker.postMessage({button: Math.floor(Math.random() * 4) + ball.attrs.o});
           ball.on();
         }
       }
@@ -79,7 +79,6 @@ const sketch = (s) => {
     s.background('black');
     blockA.draw();
     blockB.draw();
-    // blockC.draw();
     wallTop.draw();
     piano.draw();
   }
