@@ -1,8 +1,8 @@
-importScripts('./node_modules/@tensorflow/tfjs/dist/tf.min.js');
-importScripts('./node_modules/@magenta/music/es6/core.js');
-importScripts('./node_modules/@magenta/music/es6/piano_genie.js');
+importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.4.0/dist/tf.min.js");
+importScripts('https://cdn.jsdelivr.net/npm/@magenta/music@1.23.1/es6/core.js');
+importScripts('https://cdn.jsdelivr.net/npm/@magenta/music@1.23.1/es6/piano_genie.js');
 
-const genie = new piano_genie.PianoGenie('./checkpoint');
+const genie = new piano_genie.PianoGenie('https://storage.googleapis.com/magentadata/js/checkpoints/piano_genie/model/epiano/stp_iq_auto_contour_dt_166006');
 const whiteKeys = [...Array(88).keys()];
 
 (async function init() {
