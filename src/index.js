@@ -22,20 +22,35 @@ worker.onmessage = (event) => {
 
 const sketch = (s) => {
   s.setup = async () => {
-    const iw = window.innerWidth;
-    const ih = window.innerHeight;
-    const canvas = s.createCanvas(iw, ih);
-    piano = new Piano(s, 7);
-
     // create an engine
     let engine = Matter.Engine.create();
     let world = engine.world;
+    let iw = window.innerWidth;
+    let ih = window.innerHeight;
+    let canvas = s.createCanvas(iw, ih);
 
+    window.addEventListener('resize', (event) => {
+      iw = window.innerWidth;
+      ih = window.innerHeight;
+      canvas = s.createCanvas(iw, ih);
+      piano = new Piano(s, 7);
+
+      wallLeft.remove();
+      wallLeft = new Block(s, world, {x: -50, y: ih/2, h: ih, w: 100, color: 'grey'}, {isStatic: true});
+
+      wallRight.remove();
+      wallRight = new Block(s, world, {x: iw + 50, y: ih/2, h: ih, w: 100, color: 'grey'}, {isStatic: true});
+
+      const groundHeight = ih * 0.2;
+      ground.remove();
+      ground = new Block(s, world, { x: iw / 2, y: ih - groundHeight/2, w: iw, h: groundHeight, color: 'grey' }, { isStatic: true});
+    });
+
+    piano = new Piano(s, 7);
+    
     // create two boxes and a ground
     blockA = new Ball(s, world, { x: 200, y: 200, r: 40, color: 'white', o: 0 }, {restitution: 1});
     blockB = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white', o: 4 }, {restitution: 1});
-    const groundHeight = ih * 0.2;
-    ground = new Block(s, world, { x: iw / 2, y: ih - groundHeight/2, w: iw, h: groundHeight, color: 'grey' }, { isStatic: true});
 
     balls.push(blockA);
     balls.push(blockB);
@@ -43,6 +58,8 @@ const sketch = (s) => {
     wallLeft = new Block(s, world, {x: -50, y: ih/2, h: ih, w: 100, color: 'grey'}, {isStatic: true});
     wallRight = new Block(s, world, {x: iw + 50, y: ih/2, h: ih, w: 100, color: 'grey'}, {isStatic: true});
     wallTop = new Block(s, world, {x: iw/2, y: -50, h: 100, w: iw + 200, color: 'grey'}, {isStatic: true});
+    const groundHeight = ih * 0.2;
+    ground = new Block(s, world, { x: iw / 2, y: ih - groundHeight/2, w: iw, h: groundHeight, color: 'grey' }, { isStatic: true});
 
     // add a mouse to manipulate Matter objects
     mouse = new Mouse(s, engine, canvas, { stroke: 'magenta', strokeWeight: 2 });

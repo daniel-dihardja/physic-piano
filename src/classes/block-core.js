@@ -26,6 +26,10 @@ export class BlockCore {
     this.body = Matter.Bodies.rectangle(this.attrs.x, this.attrs.y, this.attrs.w, this.attrs.h, this.options);
   }
 
+  remove() {
+    Matter.Composite.remove(this.world, this.body);
+  }
+
   draw() {
     if (this.body) {
       if (this.attrs.color) {
