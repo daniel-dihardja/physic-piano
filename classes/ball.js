@@ -5,7 +5,7 @@ export class Ball extends Block {
   }
 
   on() {
-    this.attrs.color = this.sketch.color('magenta');
+    this.attrs.color = this.sketch.color('cyan');
     setTimeout(() => {
       this.attrs.color = this.sketch.color(255);
     }, 100);

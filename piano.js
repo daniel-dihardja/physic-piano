@@ -15,7 +15,7 @@ class Key {
   }
 
   on() {
-    this.color = this.sketch.color('magenta');
+    this.color = this.sketch.color('grey');
     setTimeout(() => {
       this.color = this.defaultColor;
     }, 200);
