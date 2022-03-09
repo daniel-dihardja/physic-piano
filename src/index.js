@@ -1,18 +1,13 @@
-import {Piano} from "./piano";
-import {Block, Mouse, Ball} from './classes';
-import {Player} from './player';
+import {Block, Mouse, Ball, Piano, Player} from './classes';
 
 let blockA;
 let blockB;
-let blockC;
-let ball;
 let ground;
 let mouse;
 let wallLeft;
 let wallRight;
 let wallTop;
 let piano;
-
 
 const balls = [];
 
@@ -27,7 +22,9 @@ worker.onmessage = (event) => {
 
 const sketch = (s) => {
   s.setup = async () => {
-    const canvas = s.createCanvas(800, 600);
+    const iw = window.innerWidth;
+    const ih = window.innerHeight;
+    const canvas = s.createCanvas(iw, ih);
     piano = new Piano(s, 7);
 
     // create an engine
@@ -37,14 +34,15 @@ const sketch = (s) => {
     // create two boxes and a ground
     blockA = new Ball(s, world, { x: 200, y: 200, r: 40, color: 'white', o: 0 }, {restitution: 1});
     blockB = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white', o: 4 }, {restitution: 1});
-    ground = new Block(s, world, { x: 400, y: 500, w: 810, h: 50, color: 'grey' }, { isStatic: true});
+    const groundHeight = ih * 0.2;
+    ground = new Block(s, world, { x: iw / 2, y: ih - groundHeight/2, w: iw, h: groundHeight, color: 'grey' }, { isStatic: true});
 
     balls.push(blockA);
     balls.push(blockB);
 
-    wallLeft = new Block(s, world, {x: -50, y: 300, h: 600, w: 100, color: 'grey'}, {isStatic: true});
-    wallRight = new Block(s, world, {x: 850, y: 300, h: 600, w: 100, color: 'grey'}, {isStatic: true});
-    wallTop = new Block(s, world, {x: 400, y: -50, h: 100, w: 1000, color: 'grey'}, {isStatic: true});
+    wallLeft = new Block(s, world, {x: -50, y: ih/2, h: ih, w: 100, color: 'grey'}, {isStatic: true});
+    wallRight = new Block(s, world, {x: iw + 50, y: ih/2, h: ih, w: 100, color: 'grey'}, {isStatic: true});
+    wallTop = new Block(s, world, {x: iw/2, y: -50, h: 100, w: iw + 200, color: 'grey'}, {isStatic: true});
 
     // add a mouse to manipulate Matter objects
     mouse = new Mouse(s, engine, canvas, { stroke: 'magenta', strokeWeight: 2 });
@@ -79,6 +77,7 @@ const sketch = (s) => {
     s.background('black');
     blockA.draw();
     blockB.draw();
+    ground.draw();
     wallTop.draw();
     piano.draw();
   }

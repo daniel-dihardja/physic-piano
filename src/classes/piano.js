@@ -33,6 +33,8 @@ export class Piano {
     this.keys = {};
     this.whiteKeys = [];
     this.blackKeys = [];
+    this.py = this.sketch.height - this.sketch.height * 0.2;
+    this.height = this.sketch.height * 0.2;
     this.setupKeys();
   }
 
@@ -47,7 +49,7 @@ export class Piano {
     for (let o=0; o<this.octaves; o++) {
       for (let i=0; i<whiteKeys.length; i++) {
         const px = i * this.keyWidth + 1 + o * (7 * this.keyWidth);
-        const key = new Key(this.sketch, px, 500, this.keyWidth-1, 99, 255);
+        const key = new Key(this.sketch, px, this.py, this.keyWidth-1, this.height, 255);
         const id = whiteKeys[i] + o * 12;
         this.whiteKeys.push(key);
         this.keys[id] = key;
@@ -55,7 +57,7 @@ export class Piano {
       for (let i=0; i<blackKeys.length; i++) {
         const offsetX = i < 2 ? this.keyWidth * 0.75 : this.keyWidth * 0.75 + this.keyWidth;
         const px = i * this.keyWidth + offsetX + 1 + o * (7*this.keyWidth);
-        const key = new Key(this.sketch, px, 500, this.keyWidth / 2, 70, 0);
+        const key = new Key(this.sketch, px, this.py, this.keyWidth / 2, this.height * 0.7, 0);
         const id = blackKeys[i] + o * 12;
         this.blackKeys.push(key);
         this.keys[id] = key;
