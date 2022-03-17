@@ -11,14 +11,20 @@ const OCTAVES = 7;
 export class Player {
   constructor() {
     this.player = new mm.SoundFontPlayer('https://storage.googleapis.com/magentadata/js/soundfonts/sgm_plus');
+    this.isReady = false;
+  }
+
+  async init() {
     const seq = {notes:[]};
     for (let i = 0; i < CONSTANTS.NOTES_PER_OCTAVE * OCTAVES; i++) {
       seq.notes.push({pitch: CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + i});
     }
-    this.player.loadSamples(seq);
+    await this.player.loadSamples(seq);
+    this.isReady = true;
   }
 
   play(note) {
+    if (! this.isReady) return;
     const pitch = CONSTANTS.LOWEST_PIANO_KEY_MIDI_NOTE + note;
     this.player.playNoteDown({pitch});
   }

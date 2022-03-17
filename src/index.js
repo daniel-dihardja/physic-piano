@@ -8,16 +8,25 @@ let wallLeft;
 let wallRight;
 let wallTop;
 let piano;
+let player;
 
 const balls = [];
 
+
+let initPianoGenie = false;
+
 const worker = new Worker('worker.js');
-const player = new Player();
 
 worker.onmessage = (event) => {
-  const {note} = event.data;
-  piano.on(note);
-  player.play(note);
+  if (event.data.initPianoGenie) {
+    initPianoGenie = event.data.initPianoGenie;
+    return;
+  }
+  if (event.data.note) {
+    const {note} = event.data;
+    piano.on(note);
+    player.play(note);
+  }
 }
 
 const sketch = (s) => {
@@ -28,6 +37,7 @@ const sketch = (s) => {
     let iw = window.innerWidth;
     let ih = window.innerHeight;
     let canvas = s.createCanvas(iw, ih);
+
 
     window.addEventListener('resize', (event) => {
       iw = window.innerWidth;
@@ -47,7 +57,7 @@ const sketch = (s) => {
     });
 
     piano = new Piano(s, 7);
-    
+
     // create two boxes and a ground
     blockA = new Ball(s, world, { x: 200, y: 200, r: 40, color: 'white', o: 0 }, {restitution: 1});
     blockB = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white', o: 4 }, {restitution: 1});
@@ -64,6 +74,8 @@ const sketch = (s) => {
     // add a mouse to manipulate Matter objects
     mouse = new Mouse(s, engine, canvas, { stroke: 'magenta', strokeWeight: 2 });
     mouse.on('mousedown', () => {
+      // player.player.resumeContext();
+      // console.log('resume context');
       shakeScene(engine);
     });
 
@@ -94,8 +106,6 @@ const sketch = (s) => {
     s.background('black');
     blockA.draw();
     blockB.draw();
-    ground.draw();
-    wallTop.draw();
     piano.draw();
   }
 }
@@ -116,4 +126,29 @@ function shakeScene(engine) {
   }
 }
 
-new p5(sketch);
+async function waitForPianeGenie() {
+  return new Promise(resolve => {
+    const i = setInterval(() => {
+      if (initPianoGenie) {
+        clearInterval(i);
+        resolve();
+      }
+    }, 100);
+  });
+}
+
+const titleLoading = document.getElementById('loading');
+const btnStart = document.getElementById('start');
+btnStart.style = 'display: none';
+
+(async function run() {
+  player = new Player();
+  await player.init();
+  await waitForPianeGenie();
+  titleLoading.style = 'display: none';
+  btnStart.style = 'display: inline';
+  btnStart.addEventListener('click', (evt) => {
+    btnStart.style = 'display: none';
+    new p5(sketch);
+  })
+}());

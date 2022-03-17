@@ -2,20 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Physic Piano</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
     <style>
-        body {
+        html, body {
+            background-color: #000;
+            color: #FFF;
             text-align: center;
             padding: 0;
             margin: 0;
             overflow: hidden;
+            font-family: 'Comfortaa', cursive;
+        }
+        #start {
+            background-color: #000;
+            color: #FFF;
+            border: 1px solid #FFF;
+            font-size: 24px;
+            padding: 0.2em 1em;
+            cursor: pointer;
+            margin-top: 48px;
+            font-family: 'Comfortaa', cursive;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js" integrity="sha512-5T245ZTH0m0RfONiFm2NF0zcYcmAuNzcGyPSQ18j8Bs5Pbfhp5HP1hosrR8XRt5M3kSRqzjNMYpm2+it/AUX/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.23.1/dist/magentamusic.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
 </head>
 <body>
+<h1 id="loading">Loading ...</h1>
+<button id="start">Start</button>
 <script src="bundle.js"></script>
 </body>
 </html>

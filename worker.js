@@ -7,14 +7,14 @@ const whiteKeys = [...Array(88).keys()];
 
 (async function init() {
   await genie.initialize();
-  genie.nextFromKeyWhitelist(0, whiteKeys, 0.5);
+  genie.nextFromKeyList(0, whiteKeys, 0.5);
   genie.resetState();
-  console.log('piano genie is ready');
+  postMessage({initPianoGenie: true});
 })();
 
 
 // Main script asks for work.
-self.onmessage = async (e) => {
+self.onmessage = (e) => {
   const {button} = e.data;
   const note = genie.nextFromKeyList(button, whiteKeys, 0.3);
   postMessage({note});
