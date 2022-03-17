@@ -126,7 +126,7 @@ function shakeScene(engine) {
   }
 }
 
-async function waitForPianeGenie() {
+async function waitForPianoGenie() {
   return new Promise(resolve => {
     const i = setInterval(() => {
       if (initPianoGenie) {
@@ -144,7 +144,7 @@ btnStart.style = 'display: none';
 (async function run() {
   player = new Player();
   await player.init();
-  await waitForPianeGenie();
+  await waitForPianoGenie();
   titleLoading.style = 'display: none';
   btnStart.style = 'display: inline';
   btnStart.addEventListener('click', (evt) => {
