@@ -59,8 +59,8 @@ const sketch = (s) => {
     piano = new Piano(s, 7);
 
     // create two boxes and a ground
-    blockA = new Ball(s, world, { x: 200, y: 200, r: 40, color: 'white', o: 0 }, {restitution: 1});
-    blockB = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white', o: 4 }, {restitution: 1});
+    blockA = new Ball(s, world, { x: 200, y: 200, r: 40, color: 'white', o: 0 }, {restitution: 1, friction: 0.00001, density: 0.001});
+    blockB = new Ball(s, world, { x: 270, y: 50, r: 20, color: 'white', o: 4 }, {restitution: 1, friction: 0.00001, density: 0.001});
 
     balls.push(blockA);
     balls.push(blockB);
