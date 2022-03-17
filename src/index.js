@@ -100,7 +100,7 @@ const sketch = (s) => {
       }
 
     }
-  },
+  }
 
   s.draw = () => {
     s.background('black');
