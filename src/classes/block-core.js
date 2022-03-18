@@ -49,7 +49,7 @@ export class BlockCore {
         this.drawVertices(this.body.parts[p].vertices);
       }
     } else {
-      if (this.body.type == "composite") {
+      if (this.body.type === "composite") {
         for (let body of this.body.bodies) {
           this.drawVertices(body.vertices);
         }
