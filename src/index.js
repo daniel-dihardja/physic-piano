@@ -22,7 +22,7 @@ worker.onmessage = (event) => {
 const sketch = (s) => {
   s.setup = async () => {
     worldWrapper = new WorldWrapper(s, (ball) => {
-      worker.postMessage({button: Math.floor(Math.random() * 4) + ball.attrs.o});
+      worker.postMessage({button: Math.floor(Math.random() * 8) + ball.attrs.o});
     });
 
     let iw = window.innerWidth;
@@ -35,6 +35,15 @@ const sketch = (s) => {
       s.createCanvas(iw, ih);
       worldWrapper.resize();
       piano = new Piano(s, 7);
+    });
+
+    new DomElement('#inputRestitution').onInput(v => {
+      console.log(v);
+      worldWrapper.set('restitution', v);
+    });
+
+    new DomElement('#inputFriction').onInput(v => {
+      worldWrapper.set('frictionAir', v);
     });
 
     piano = new Piano(s, 7);
@@ -57,7 +66,6 @@ async function waitForPianoGenie() {
     }, 100);
   });
 }
-
 
 (async function run() {
   const titleLoading =  new DomElement('#loading');

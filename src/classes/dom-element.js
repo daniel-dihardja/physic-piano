@@ -13,4 +13,10 @@ export class DomElement {
     this.element.style = 'display: none';
     return this;
   }
+
+  onInput(func) {
+    //this.element.addEventListener('input', func);
+    this.element.oninput = (e) => func(this.element.value);
+    return this;
+  }
 }

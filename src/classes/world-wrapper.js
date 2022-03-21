@@ -14,11 +14,11 @@ export class WorldWrapper {
 
     this.balls = [];
 
+    // this.balls.push(
+    //   new Ball(this.sketch, this.world, { x: this.iw / 2 + 100, y: 200, r: 40, color: 'white', o: 0 }, {restitution: 1, friction: 0.00001, frictionAir: 0.005, density: 0.0001})
+    // );
     this.balls.push(
-      new Ball(this.sketch, this.world, { x: this.iw / 2 + 100, y: 200, r: 40, color: 'white', o: 0 }, {restitution: 1, friction: 0.00001, frictionAir: 0.005, density: 0.0001})
-    );
-    this.balls.push(
-      new Ball(this.sketch, this.world, { x: this.iw / 2 - 100, y: 50, r: 20, color: 'white', o: 4 }, {restitution: 1, friction: 0.00001, frictionAir: 0.01, density: 0.00001})
+      new Ball(this.sketch, this.world, { x: this.iw / 2 - 100, y: 50, r: 50, color: 'white', o: 0 }, {restitution: 1, friction: 0.00001, frictionAir: 0.01, density: 0.00001})
     );
 
     this.wallLeft = new Block(this.sketch, this.world, {x: -50, y: this.ih/2, h: this.ih, w: 100, color: 'grey'}, {isStatic: true});
@@ -46,10 +46,14 @@ export class WorldWrapper {
             ball.on();
           }
         }
-
       }
     });
     Matter.Runner.run(this.engine);
+  }
+
+  set(attr, v) {
+    const body = this.balls[0].body;
+    Matter.Body.set(body, attr, v*1);
   }
 
   resize() {
@@ -72,7 +76,6 @@ export class WorldWrapper {
       ball.draw();
     }
   }
-
 }
 
 function shakeScene(engine) {
