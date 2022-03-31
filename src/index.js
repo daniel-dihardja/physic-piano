@@ -22,7 +22,7 @@ worker.onmessage = (event) => {
 const sketch = (s) => {
   s.setup = async () => {
     worldWrapper = new WorldWrapper(s, (ball) => {
-      worker.postMessage({button: Math.floor(Math.random() * 8) + ball.attrs.o});
+      worker.postMessage({button: Math.floor(Math.random() * 4) + ball.attrs.o});
     });
 
     let iw = window.innerWidth;
