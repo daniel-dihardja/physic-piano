@@ -25,6 +25,3 @@ Collision Symphony is released under the [MIT License](LICENSE).
 - Box2D: [https://box2d.org/](https://box2d.org/)
 - magenta: [https://magenta.tensorflow.org/](https://magenta.tensorflow.org/)
 
-## Contact
-
-For any questions or inquiries about Collision Symphony, please reach out to [your-email@example.com](mailto:your-email@example.com). We would love to hear from you!
