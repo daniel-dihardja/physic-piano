@@ -13,7 +13,7 @@ Collision Symphony is an exciting prototype web application that combines the po
 
 ## How It Works
 
-Collision Symphony utilizes the powerful p5.js library to handle the graphical rendering and interactivity, while Box2D, a 2D physics library, provides realistic physics simulations. The collisions between objects trigger the generation of musical nodes based on the magenta piano model, creating a harmonious symphony of visuals and sounds.
+Collision Symphony utilizes the p5.js library to handle the graphical rendering and interactivity, while Box2D, a 2D physics library, provides realistic physics simulations. The collisions between objects trigger the generation of musical notes from the magenta piano model, creating a harmonious symphony of visuals and sounds.
 
 ## License
 
