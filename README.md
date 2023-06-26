@@ -1,6 +1,3 @@
-Sure! Here's a cool GitHub README description for your project:
-
-```
 # Collision Symphony
 
 ![Collision Symphony Demo](demo.gif)
@@ -43,7 +40,3 @@ Collision Symphony is released under the [MIT License](LICENSE).
 ## Contact
 
 For any questions or inquiries about Collision Symphony, please reach out to [your-email@example.com](mailto:your-email@example.com). We would love to hear from you!
-
-```
-
-Feel free to customize the content as per your project's details and specifications.
