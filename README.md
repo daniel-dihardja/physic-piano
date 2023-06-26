@@ -15,18 +15,6 @@ Collision Symphony is an exciting prototype web application that combines the po
 
 Collision Symphony utilizes the powerful p5.js library to handle the graphical rendering and interactivity, while Box2D, a 2D physics library, provides realistic physics simulations. The collisions between objects trigger the generation of musical nodes based on the magenta piano model, creating a harmonious symphony of visuals and sounds.
 
-## Installation
-
-To run Collision Symphony locally on your machine, follow these steps:
-
-1. Clone the repository: `git clone https://github.com/your-username/collision-symphony.git`
-2. Navigate to the project directory: `cd collision-symphony`
-3. Open `index.html` in your preferred web browser.
-
-## Contribution
-
-Contributions to Collision Symphony are more than welcome! If you have any ideas for improvements, new features, or bug fixes, please feel free to submit a pull request.
-
 ## License
 
 Collision Symphony is released under the [MIT License](LICENSE).
